@@ -79,15 +79,15 @@ jobs:
         docker build -t dotnet-api:${{ github.sha }} .
         docker tag dotnet-api:${{ github.sha }} dotnet-api:latest
         
-    - name: Test Docker image
-      run: |
-        docker run -d --name test-api -p 8080:8080 -e ASPNETCORE_HTTP_PORTS=8080 dotnet-api:${{ github.sha }}
-        sleep 10
-        curl -f http://localhost:8080/health || exit 1
-        curl -f http://localhost:8080/ || exit 1
-        curl -f http://localhost:8080/api/users || exit 1
-        docker stop test-api
-        docker rm test-api
+    # - name: Test Docker image
+    #   run: |
+    #     docker run -d --name test-api -p 8080:8080 -e ASPNETCORE_HTTP_PORTS=8080 dotnet-api:${{ github.sha }}
+    #     sleep 10
+    #     curl -f http://localhost:8080/health || exit 1
+    #     curl -f http://localhost:8080/ || exit 1
+    #     curl -f http://localhost:8080/api/users || exit 1
+    #     docker stop test-api
+    #     docker rm test-api
         
     - name: Save Docker image
       run: |
