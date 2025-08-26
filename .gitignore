@@ -138,6 +138,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+### DotnetCore ###
+# .NET Core build folders
 bin/
-src/UserApi.Api/obj/Debug
-tests/UserApi.Tests/obj/Debug
+obj/
