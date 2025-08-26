@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "RCywqOPJ1k8=",
+  "success": true,
+  "projectFilePath": "/workspace/ci-cd-training-apps/src/UserApi.Api/UserApi.Api.csproj",
+  "expectedPackageFiles": [
+    "/home/gitpod/.nuget/packages/microsoft.aspnetcore.openapi/9.0.0/microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
+    "/home/gitpod/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512",
+    "/home/gitpod/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.8.1/swashbuckle.aspnetcore.swaggerui.6.8.1.nupkg.sha512"
+  ],
+  "logs": []
+}
