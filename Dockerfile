@@ -3,13 +3,12 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy csproj files and restore dependencies
-COPY *.sln .
 COPY src/UserApi.Api/UserApi.Api.csproj ./src/UserApi.Api/
+WORKDIR /src/src/UserApi.Api
 RUN dotnet restore
 
 # Copy everything else and build
 COPY src/UserApi.Api/. ./src/UserApi.Api/
-WORKDIR /src/src/UserApi.Api
 RUN dotnet build -c Release -o /app/build
 
 # Publish stage
