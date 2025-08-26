@@ -1,16 +1,16 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
 using UserApi.Api.Models;
+using UserApi.Tests.Infrastructure;
 
 namespace UserApi.Tests.Controllers;
 
-public class UsersControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class UsersControllerTests : IClassFixture<IntegrationTestWebApplicationFactory>
 {
     private readonly HttpClient _client;
 
-    public UsersControllerTests(WebApplicationFactory<Program> factory)
+    public UsersControllerTests(IntegrationTestWebApplicationFactory factory)
     {
         _client = factory.CreateClient();
     }
@@ -23,7 +23,7 @@ public class UsersControllerTests : IClassFixture<WebApplicationFactory<Program>
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var content = await response.Content.ReadFromJsonAsync<dynamic>();
+        var content = await response.Content.ReadFromJsonAsync<object>();
         content.Should().NotBeNull();
     }
 

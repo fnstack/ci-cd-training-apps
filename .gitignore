@@ -138,7 +138,16 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-### DotnetCore ###
-# .NET Core build folders
-bin/
-obj/
+# Build results
+
+msbuild.*
+.build/
+[Bb]in/
+[Oo]bj/
+
+# NuGet Packages
+
+*.nupkg
+packages.config
+# The packages folder can be ignored because of Package Restore
+**/packages/*

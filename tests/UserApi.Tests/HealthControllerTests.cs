@@ -1,14 +1,14 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
+using UserApi.Tests.Infrastructure;
 
 namespace UserApi.Tests;
 
-public class HealthControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class HealthControllerTests : IClassFixture<IntegrationTestWebApplicationFactory>
 {
     private readonly HttpClient _client;
 
-    public HealthControllerTests(WebApplicationFactory<Program> factory)
+    public HealthControllerTests(IntegrationTestWebApplicationFactory factory)
     {
         _client = factory.CreateClient();
     }
