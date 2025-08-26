@@ -1,5 +1,6 @@
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
+using DotNet.Testcontainers.Networks;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -24,21 +25,55 @@ public class ContainerizedApiTests : IAsyncLifetime
             _container = new ContainerBuilder()
                 .WithImage("nginx:alpine") 
                 .WithPortBinding(80, true)
+                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
                 .Build();
 
             await _container.StartAsync();
 
-            // Wait a bit for the application to start
-            await Task.Delay(5000);
-
-            _baseUrl = $"http://localhost:{_container.GetMappedPublicPort(80)}";
+            // Get the host - use container hostname in CI environments
+            var host = Environment.GetEnvironmentVariable("CI") != null 
+                ? _container.Hostname 
+                : "localhost";
+            
+            var port = _container.GetMappedPublicPort(80);
+            _baseUrl = $"http://{host}:{port}";
+            
             _httpClient = new HttpClient();
+            
+            // Additional connectivity test for CI environments
+            await VerifyContainerConnectivity();
         }
         catch (Exception ex)
         {
             // If we can't start containers, skip these tests
             throw new SkipException($"Could not start test container: {ex.Message}");
         }
+    }
+
+    private async Task VerifyContainerConnectivity()
+    {
+        var maxRetries = 10;
+        var delay = TimeSpan.FromSeconds(2);
+        
+        for (int i = 0; i < maxRetries; i++)
+        {
+            try
+            {
+                using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
+                var response = await client.GetAsync(_baseUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    return; // Success
+                }
+            }
+            catch (HttpRequestException) when (i < maxRetries - 1)
+            {
+                await Task.Delay(delay);
+                continue;
+            }
+        }
+        
+        throw new SkipException($"Container not reachable at {_baseUrl} after {maxRetries} attempts");
     }
 
     public async Task DisposeAsync()

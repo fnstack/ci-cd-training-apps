@@ -3214,7 +3214,7 @@
       "FluentAssertions.Http >= 1.0.0",
       "Microsoft.AspNetCore.Mvc.Testing >= 9.0.0",
       "Microsoft.NET.Test.Sdk >= 17.12.0",
-      "Testcontainers >= 3.11.0",
+      "Testcontainers >= 4.0.0",
       "UserApi.Api >= 1.0.0",
       "coverlet.collector >= 6.0.2",
       "xunit >= 2.9.2",
@@ -3286,7 +3286,7 @@
           },
           "Testcontainers": {
             "target": "Package",
-            "version": "[3.11.0, )"
+            "version": "[4.0.0, )"
           },
           "coverlet.collector": {
             "target": "Package",
@@ -3320,17 +3320,5 @@
         "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "UserApi.Tests depends on Testcontainers (>= 3.11.0) but Testcontainers 3.11.0 was not found. Testcontainers 4.0.0 was resolved instead.",
-      "libraryId": "Testcontainers",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
+  }
 }
