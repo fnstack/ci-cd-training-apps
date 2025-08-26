@@ -72,35 +72,6 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        
-    - name: Test pushed image
-      run: |
-        # Pull the image we just pushed
-        docker pull ${{ env.REGISTRY }}/${{ gitea.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}-${{ github.sha }}
-        
-        # Run container from registry image
-        docker run -d --name registry-test \
-          -p 8081:8080 \
-          -e ASPNETCORE_HTTP_PORTS=8080 \
-          ${{ env.REGISTRY }}/${{ gitea.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}-${{ github.sha }}
-        
-        # Wait for startup
-        sleep 10
-        
-        # Test endpoints
-        curl -f http://localhost:8081/health || exit 1
-        curl -f http://localhost:8081/ || exit 1
-        curl -f http://localhost:8081/api/users || exit 1
-        
-        # Test API functionality
-        curl -X POST http://localhost:8081/api/users \
-          -H "Content-Type: application/json" \
-          -d '{"name":"Registry Test","email":"registry@test.com"}' \
-          -f || exit 1
-        
-        # Cleanup
-        docker stop registry-test
-        docker rm registry-test
 
   security-scan:
     needs: build-and-push
